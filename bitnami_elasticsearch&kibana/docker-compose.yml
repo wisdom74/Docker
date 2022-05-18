@@ -2,15 +2,15 @@ version: '3'
 services:
   elasticsearch:
     container_name: elasticsearch
-      image: docker.io/bitnami/elasticsearch:8
-      restart: always
-      ports:
-        - '9200:9200'
-        - '9300:9300'
-      environment:
-        - TZ: 'Asia/Seoul'
-      volumes:
-        - 'elasticsearch_data:/bitnami/elasticsearch/data'
+    image: docker.io/bitnami/elasticsearch:8
+    restart: always
+    ports:
+      - '9200:9200'
+      - '9300:9300'
+    environment:
+      - TZ: 'Asia/Seoul'
+    volumes:
+      - 'elasticsearch_data:/bitnami/elasticsearch/data'
   kibana:
     container_name: kibana
     image: docker.io/bitnami/kibana:8
