@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  envoy:
+    container_name: envoy
+    image: docker.io/bitnami/envoy:1.22
+    restart: always
+    environment:
+      - TZ: 'Asia/Seoul'
+      
+networks:
+  default:
+    external: true
+    name: dev-net
