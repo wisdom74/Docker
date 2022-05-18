@@ -1,1 +1,1 @@
-# docker-bitnami_grafana
+# bitnami_grafana
