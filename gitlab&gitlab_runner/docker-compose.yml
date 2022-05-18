@@ -30,7 +30,7 @@ services:
       #- 'gitlab_runner_config:/etc/gitlab-runner'
       - './config/gitlab-runner:/etc/gitlab-runner'
     depends_on:
-    - gitlab
+      - gitlab
 
 networks:
   default:
