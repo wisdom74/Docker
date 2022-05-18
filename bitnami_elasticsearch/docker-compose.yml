@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  elasticsearch:
+  container_name: elasticsearch
+    image: docker.io/bitnami/elasticsearch:8
+    restart: always
+    ports:
+      - '9200:9200'
+      - '9300:9300'
+    environment:
+      - TZ: 'Asia/Seoul'
+    volumes:
+      - 'elasticsearch_data:/bitnami/elasticsearch/data'
+      
+networks:
+  default:
+    external: true
+    name: dev-net
+    
+volumes:
+  elasticsearch_data:
+    driver: local
