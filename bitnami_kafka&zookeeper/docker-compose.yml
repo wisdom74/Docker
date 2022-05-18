@@ -26,6 +26,11 @@ services:
       - TZ: 'Asia/Seoul'
     depends_on:
       - zookeeper
+      
+networks:
+  default:
+    external: true
+    name: dev-net
 
 volumes:
   zookeeper_data:
