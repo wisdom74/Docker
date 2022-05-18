@@ -24,7 +24,7 @@ services:
     image: docker.io/gitlab/gitlab-runner:v14.10.0
     restart: always
     environment:
-      - TZ=Asia/Seoul
+      - TZ: 'Asia/Seoul'
     volumes:
       - '/var/run/docker.sock:/var/run/docker.sock'
       #- 'gitlab_runner_config:/etc/gitlab-runner'
