@@ -1,0 +1,48 @@
+version: '3.6'
+
+services:
+  gitlab:
+    container_name: gitlab
+    image: 'gitlab/gitlab-ee:latest'
+    restart: always
+    ports:
+      - '18080:18080'
+      - '10443:10443'
+      - '122:22'
+    hostname: '${IP}'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://${IP}:18080'
+        gitlab_rails['gitlab_shell_ssh_port'] = 122
+      TZ: 'Asia/Seoul'
+    volumes:
+      - 'gitlab_ee_config:/etc/gitlab'
+      - 'gitlab_ee_log:/var/log/gitlab'
+      - 'gitlab_ee_data:/var/opt/gitlab'
+  gitlab-runner:
+    container_name: gitlab-runner
+    image: docker.io/gitlab/gitlab-runner:v14.10.0
+    restart: always
+    environment:
+      - TZ=Asia/Seoul
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'
+      #- 'gitlab_runner_config:/etc/gitlab-runner'
+      - './config/gitlab-runner:/etc/gitlab-runner'
+    depends_on:
+    - gitlab
+
+networks:
+  default:
+    external: true
+    name: dev-net
+
+volumes:
+  gitlab_ee_config:
+    driver: local
+  gitlab_ee_log:
+    driver: local
+  gitlab_ee_data:
+    driver: local
+  gitlab_runner_config:
+    driver: local
