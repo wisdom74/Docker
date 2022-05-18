@@ -8,7 +8,7 @@ services:
     ports:
       - '5000:5000'
     environment:
-      - TZ=Asia/Seoul
+      - TZ: 'Asia/Seoul'
     volumes:
       - 'registry_data:/var/lib/registry/docker/registry/v2'
 
