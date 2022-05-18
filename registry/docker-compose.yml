@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  registry:
+    container_name: registry
+    image: registry:2.8.1
+    restart: always
+    ports:
+      - '5000:5000'
+    environment:
+      - TZ=Asia/Seoul
+    volumes:
+      - 'registry_data:/var/lib/registry/docker/registry/v2'
+
+networks:
+  default:
+    external: true
+    name: dev-net
+
+volumes:
+  registry_data:
+    driver: local
