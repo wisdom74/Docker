@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  prometheus:
+    container_name: prometheus
+    image: docker.io/bitnami/prometheus:2
+    restart: always
+    ports:
+      - '9090:9090'
+    environment:
+      - TZ: 'Asia/Seoul'
+
+networks:
+  default:
+    external: true
+    name: dev-net
