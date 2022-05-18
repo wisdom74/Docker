@@ -1,0 +1,36 @@
+version: '3'
+services:
+  elasticsearch:
+    container_name: elasticsearch
+      image: docker.io/bitnami/elasticsearch:8
+      restart: always
+      ports:
+        - '9200:9200'
+        - '9300:9300'
+      environment:
+        - TZ: 'Asia/Seoul'
+      volumes:
+        - 'elasticsearch_data:/bitnami/elasticsearch/data'
+  kibana:
+    container_name: kibana
+    image: docker.io/bitnami/kibana:8
+    restart: always
+    ports:
+      - '5601:5601'
+    environment:
+      - TZ: 'Asia/Seoul'
+    volumes:
+      - 'kibana_data:/bitnami/kibana'
+    depends_on:
+      - elasticsearch
+      
+networks:
+  default:
+    external: true
+    name: dev-net
+
+volumes:
+  elasticsearch_data:
+    driver: local
+  kibana_data:
+    driver: local
