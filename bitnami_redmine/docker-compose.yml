@@ -25,7 +25,7 @@ services:
       - mariadb
     environment:
       # ALLOW_EMPTY_PASSWORD is recommended only for development.
-      - TZ: 'Asia/Seoul'
+      - TZ=Asia/Seoul
       - ALLOW_EMPTY_PASSWORD=yes
       - REDMINE_DATABASE_HOST=mariadb
       - REDMINE_DATABASE_PORT_NUMBER=3306
