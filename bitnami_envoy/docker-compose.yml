@@ -6,7 +6,7 @@ services:
     image: docker.io/bitnami/envoy:1.22
     restart: always
     environment:
-      - TZ: 'Asia/Seoul'
+      - TZ=Asia/Seoul
       
 networks:
   default:
