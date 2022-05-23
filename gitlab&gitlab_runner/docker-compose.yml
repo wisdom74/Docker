@@ -3,47 +3,79 @@ version: '3'
 services:
   gitlab:
     container_name: gitlab
-    image: 'gitlab/gitlab-ee:latest'
+    image: 'gitlab/gitlab-ee:14.10.2-ee.0'
     restart: always
     ports:
-      - '18080:18080'
-      - '10443:10443'
-      - '122:22'
-    hostname: '${IP}'
+      - '${PORT}:${PORT}'
+      - '10443:443'
+      - '1022:22'
+      - '${REGISTRY_PORT}:${REGISTRY_PORT}'
+    hostname: '${IP}:${PORT}'
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        external_url 'http://${IP}:18080'
-        #registry_external_url 'http://${IP}:18080'
-        gitlab_rails['gitlab_shell_ssh_port'] = 122
+        external_url 'http://${IP}:${PORT}'
+        registry_external_url 'http://${REGISTRY_IP}:${REGISTRY_PORT}'
+        gitlab_rails['registry_enabled'] = true
+        gitlab_rails['registry_host'] = "${REGISTRY_IP}"
+        gitlab_rails['registry_port'] = "${REGISTRY_PORT}"
+        gitlab_rails['gitlab_shell_ssh_port'] = 1022
+        registry['env'] = { "REGISTRY_HTTP_RELATIVEURLS" => true }
+        gitlab_rails['smtp_enable'] = true
+        gitlab_rails['smtp_address'] = "smtp.gmail.com"
+        gitlab_rails['smtp_port'] = 587
+        gitlab_rails['smtp_user_name'] = "user_email@example.com"
+        gitlab_rails['smtp_password'] = "user_email_passwd"
+        gitlab_rails['smtp_domain'] = "smtp.gmail.com"
+        gitlab_rails['smtp_authentication'] = "login"
+        gitlab_rails['smtp_enable_starttls_auto'] = true
+        gitlab_rails['smtp_tls'] = false
+        gitlab_rails['smtp_openssl_verify_mode'] = 'peer'
+        
       TZ: 'Asia/Seoul'
+        #gitlab_rails['smtp_enable'] = true
+        #gitlab_rails['smtp_address'] = 'localhost'
+        #gitlab_rails['smtp_port'] = 25
+        #gitlab_rails['smtp_domain'] = 'localhost'
+        #gitlab_rails['smtp_tls'] = false
+        #gitlab_rails['smtp_openssl_verify_mode'] = 'none'
+        #gitlab_rails['smtp_enable_starttls_auto'] = false
+        #gitlab_rails['smtp_ssl'] = false
+        #gitlab_rails['smtp_force_ssl'] = false
+        #registry_external_url 'http://${IP}:${PORT}'
+        #registry_nginx['enable'] = true
+        #registry['enable'] = true
+        #gitlab_rails['registry_enabled'] = true
+        #itlab_rails['registry_host'] = "${IP}"
+        #gitlab_rails['registry_port'] = "${PORT}"
     volumes:
-      - 'gitlab_ee_config:/etc/gitlab'
-      - 'gitlab_ee_log:/var/log/gitlab'
-      - 'gitlab_ee_data:/var/opt/gitlab'
+#      - 'gitlab_ee_config:/etc/gitlab'
+#      - 'gitlab_ee_log:/var/log/gitlab'
+#      - 'gitlab_ee_data:/var/opt/gitlab'
+#      - '/var/data/gitlab/config:/etc/gitlab'
+#      - '/var/data/gitlab/log:/var/log/gitlab'
+#      - '/var/data/gitlab/data:/var/opt/gitlab'
   gitlab-runner:
     container_name: gitlab-runner
-    image: docker.io/gitlab/gitlab-runner:v14.10.0
+    image: docker.io/gitlab/gitlab-runner:v14.10.1
     restart: always
     environment:
       - TZ=Asia/Seoul
     volumes:
-      - '/var/run/docker.sock:/var/run/docker.sock'
 #      - 'gitlab_runner_config:/etc/gitlab-runner'
-      - './config/gitlab-runner:/etc/gitlab-runner'
-    depends_on:
-      - gitlab
+#      - '/var/data/gitlab-runner/config:/etc/gitlab-runner'
+      - '/var/run/docker.sock:/var/run/docker.sock'
 
-networks:
-  default:
-    external: true
-    name: dev-net
+#networks:
+#  default:
+#    external: true
+#    name: dev-net
 
-volumes:
-  gitlab_ee_config:
-    driver: local
-  gitlab_ee_log:
-    driver: local
-  gitlab_ee_data:
-    driver: local
-  gitlab_runner_config:
-    driver: local
+#volumes:
+#  gitlab_ee_config:
+#    driver: local
+#  gitlab_ee_log:
+#    driver: local
+#  gitlab_ee_data:
+#    driver: local
+#  gitlab_runner_config:
+#    driver: local
