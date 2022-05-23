@@ -9,7 +9,7 @@ services:
       - 'mariadb_data:/bitnami/mariadb'
     environment:
       # ALLOW_EMPTY_PASSWORD is recommended only for development.
-      - TZ: 'Asia/Seoul'
+      - TZ=Asia/Seoul
       - ALLOW_EMPTY_PASSWORD=yes
       - MARIADB_USER=bn_redmine
       - MARIADB_DATABASE=bitnami_redmine
