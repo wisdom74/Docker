@@ -6,7 +6,8 @@ services:
     image: docker.io/bitnami/mariadb:10.6
     restart: always
     volumes:
-      - 'mariadb_data:/bitnami/mariadb'
+#      - 'mariadb_data:/bitnami/mariadb'
+#      - '/var/data/mariadb/data:/bitnami/mariadb'
     environment:
       # ALLOW_EMPTY_PASSWORD is recommended only for development.
       - TZ=Asia/Seoul
@@ -20,7 +21,8 @@ services:
     ports:
       - '18081:3000'
     volumes:
-      - 'redmine_data:/bitnami/redmine'
+#      - 'redmine_data:/bitnami/redmine'
+#      - '/var/data/redmine/data:/bitnami/redmine'
     depends_on:
       - mariadb
     environment:
@@ -32,13 +34,13 @@ services:
       - REDMINE_DATABASE_USER=bn_redmine
       - REDMINE_DATABASE_NAME=bitnami_redmine
 
-networks:
-  default:
-    external: true
-    name: dev-net
+#networks:
+#  default:
+#    external: true
+#    name: dev-net
 
-volumes:
-  mariadb_data:
-    driver: local
-  redmine_data:
-    driver: local
+#volumes:
+#  mariadb_data:
+#    driver: local
+#  redmine_data:
+#    driver: local
